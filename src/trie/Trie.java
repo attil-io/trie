@@ -1,32 +1,24 @@
 package trie;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Trie {
+public class Trie<E> {
 
-	private static class Node {
-		public final Character value;
-		private Map<Character, Node> children = new HashMap<Character, Trie.Node>();
+	private static class Node<E> {
+		private Map<E, Node<E>> children = new HashMap<>();
 		
-		Node() {
-			value = null;
-		}
-		
-		Node(char value) {
-			this.value = value;
-		}
-		
-		Node addChild(char child) {
-			children.putIfAbsent(child, new Node(child));
+		Node<E> addChild(E child) {
+			children.putIfAbsent(child, new Node<E>());
 			return children.get(child);
 		}
 		
-		Node getChild(char child) {
+		Node<E> getChild(E child) {
 			return children.get(child);
 		}
 		
-		Node removeChild(char child) {
+		Node<E> removeChild(E child) {
 			return children.remove(child);
 		}
 		
@@ -35,12 +27,12 @@ public class Trie {
 		}
 	}
 	
-	private Node root = new Node();
+	private Node<E> root = new Node<>();
 	
-	public boolean contains(String word) {
-		Node node = root;
-		for (char ch: word.toCharArray()) {
-			Node next = node.getChild(ch);
+	public boolean contains(Collection<E> word) {
+		Node<E> node = root;
+		for (E ch: word) {
+			Node<E> next = node.getChild(ch);
 			if (next == null) {
 				return false;
 			} else {
@@ -50,10 +42,10 @@ public class Trie {
 		return true;
 	}
 
-	public void add(String word) {
-		Node node = root;
-		for (char ch: word.toCharArray()) {
-			Node next = node.getChild(ch);
+	public void add(Collection<E> word) {
+		Node<E> node = root;
+		for (E ch: word) {
+			Node<E> next = node.getChild(ch);
 			if (next == null) {
 				next = node.addChild(ch);
 			}
@@ -61,23 +53,21 @@ public class Trie {
 		}
 	}
 
-	public void remove(String word) {
-		Node node = root;
-		Node lastFork = root;
-		int lastForkPos = 0;
-		int pos = 0;
-		for (char ch: word.toCharArray()) {
+	public void remove(Collection<E> word) {
+		Node<E> node = root;
+		Node<E> lastFork = root;
+		E childAtLastFork = word.iterator().next();
+		for (E ch: word) {
 			if (!node.hasAtMostOneChild()) {
 				lastFork = node;
-				lastForkPos = pos;
+				childAtLastFork = ch;
 			}
 			node = node.getChild(ch);
-			++pos;
 			if (node == null) {
 				break;
 			}
 		}
-		lastFork.removeChild(word.charAt(lastForkPos));
+		lastFork.removeChild(childAtLastFork);
 	}
 
 }

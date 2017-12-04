@@ -1,47 +1,58 @@
 package trie;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 public class TrieTest {
 
 	@Test
 	public void emptyTrieShouldNotContainWord() {
-		Trie trie = new Trie();
-		assertThat(trie.contains("hello"), is(false));
+		Trie<Character> trie = new Trie<>();
+		assertThat(trie.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void wordShouldBeContainedIfAdded() {
-		Trie trie = new Trie();
-		trie.add("hello");
-		assertThat(trie.contains("hello"), is(true));
+		Trie<Character> trie = new Trie<>();
+		trie.add(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hello")), is(true));
 	}
 
 	@Test
 	public void wordShouldNotBeContainedIfRemoved() {
-		Trie trie = new Trie();
-		trie.add("hello");
-		trie.remove("hello");
-		assertThat(trie.contains("hello"), is(false));
+		Trie<Character> trie = new Trie<>();
+		trie.add(string2Coll("hello"));
+		trie.remove(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void removingNonExistingWordShouldNotCauseException() {
-		Trie trie = new Trie();
-		trie.remove("hello");
-		assertThat(trie.contains("hello"), is(false));
+		Trie<Character> trie = new Trie<>();
+		trie.remove(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void removingOneWordShouldNotRemoveAnother() {
-		Trie trie = new Trie();
-		trie.add("hello");
-		trie.add("help");
-		trie.remove("help");
-		assertThat(trie.contains("help"), is(false));
-		assertThat(trie.contains("hello"), is(true));
+		Trie<Character> trie = new Trie<Character>();
+		trie.add(string2Coll("hello"));
+		trie.add(string2Coll("help"));
+		trie.remove(string2Coll("help"));
+		assertThat(trie.contains(string2Coll("help")), is(false));
+		assertThat(trie.contains(string2Coll("hello")), is(true));
 	}
 
+	private static Collection<Character> string2Coll(String str) {
+		Collection<Character> ret = new ArrayList<>(str.length());
+		for (char ch: str.toCharArray()) {
+			ret.add(ch);
+		}
+		return ret;
+	}
 }
