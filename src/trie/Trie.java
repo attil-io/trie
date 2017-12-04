@@ -56,7 +56,7 @@ public class Trie<E> {
 	public void remove(Collection<E> word) {
 		Node<E> node = root;
 		Node<E> lastFork = root;
-		E childAtLastFork = word.iterator().next();
+		E childAtLastFork = word.iterator().hasNext() ? word.iterator().next() : null;
 		for (E ch: word) {
 			if (!node.hasAtMostOneChild()) {
 				lastFork = node;

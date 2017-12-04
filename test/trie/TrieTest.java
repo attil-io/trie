@@ -11,11 +11,23 @@ import org.junit.Test;
 public class TrieTest {
 
 	@Test
+	public void emptyTrieShouldContainEmptyWord() {
+		Trie<Character> trie = new Trie<>();
+		assertThat(trie.contains(string2Coll("")), is(true));
+	}	
+	
+	@Test
 	public void emptyTrieShouldNotContainWord() {
 		Trie<Character> trie = new Trie<>();
 		assertThat(trie.contains(string2Coll("hello")), is(false));
 	}
 
+	@Test
+	public void addZeroLengthWordShouldNotCauseException() {
+		Trie<Character> trie = new Trie<>();
+		trie.add(string2Coll(""));
+	}
+	
 	@Test
 	public void wordShouldBeContainedIfAdded() {
 		Trie<Character> trie = new Trie<>();
@@ -48,6 +60,13 @@ public class TrieTest {
 		assertThat(trie.contains(string2Coll("hello")), is(true));
 	}
 
+	@Test
+	public void removingZeroLengthWordShouldNotCauseException() {
+		Trie<Character> trie = new Trie<>();
+		trie.remove(string2Coll(""));
+		assertThat(trie.contains(string2Coll("")), is(true));
+	}	
+	
 	private static Collection<Character> string2Coll(String str) {
 		Collection<Character> ret = new ArrayList<>(str.length());
 		for (char ch: str.toCharArray()) {
