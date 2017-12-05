@@ -6,103 +6,99 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TrieTest {
 
+	private Trie<Character> underTest;
+	
+	@Before
+	public void setUp() {
+		underTest = new Trie<>();
+	}
+	
 	@Test
 	public void emptyWordShouldNotBeContainedByDefault() {
-		Trie<Character> trie = new Trie<>();
-		assertThat(trie.contains(string2Coll("")), is(false));
+		assertThat(underTest.contains(string2Coll("")), is(false));
 	}	
 	
 	@Test
 	public void emptyTrieShouldNotContainWord() {
-		Trie<Character> trie = new Trie<>();
-		assertThat(trie.contains(string2Coll("hello")), is(false));
+		assertThat(underTest.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void addZeroLengthWordShouldNotCauseException() {
-		Trie<Character> trie = new Trie<>();
-		trie.add(string2Coll(""));
-		assertThat(trie.contains(string2Coll("")), is(true));
+		underTest.add(string2Coll(""));
+		assertThat(underTest.contains(string2Coll("")), is(true));
 	}
 	
 	@Test
 	public void wordShouldBeContainedIfAdded() {
-		Trie<Character> trie = new Trie<>();
-		trie.add(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hello")), is(true));
+		underTest.add(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hello")), is(true));
 	}
 
 	@Test
 	public void wordAddedTwiceShouldBeContained() {
-		Trie<Character> trie = new Trie<>();
-		trie.add(string2Coll("hello"));
-		trie.add(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hello")), is(true));
+		underTest.add(string2Coll("hello"));
+		underTest.add(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hello")), is(true));
 	}
 	
 	@Test
 	public void wordShouldNotBeContainedIfRemoved() {
-		Trie<Character> trie = new Trie<>();
-		trie.add(string2Coll("hello"));
-		trie.remove(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hello")), is(false));
+		underTest.add(string2Coll("hello"));
+		underTest.remove(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void wordAddedTwiceAndRemovedShouldBeContained() {
-		Trie<Character> trie = new Trie<>();
-		trie.add(string2Coll("hello"));
-		trie.add(string2Coll("hello"));
-		trie.remove(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hello")), is(false));
+		underTest.add(string2Coll("hello"));
+		underTest.add(string2Coll("hello"));
+		underTest.remove(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hello")), is(false));
 	}	
 	
 	@Test
 	public void removingNonExistingWordShouldNotCauseException() {
-		Trie<Character> trie = new Trie<>();
-		trie.remove(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hello")), is(false));
+		underTest.remove(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void removingOneWordShouldNotRemoveAnother() {
-		Trie<Character> trie = new Trie<Character>();
-		trie.add(string2Coll("hello"));
-		trie.add(string2Coll("help"));
-		trie.remove(string2Coll("help"));
-		assertThat(trie.contains(string2Coll("help")), is(false));
-		assertThat(trie.contains(string2Coll("hello")), is(true));
+		underTest.add(string2Coll("hello"));
+		underTest.add(string2Coll("help"));
+		underTest.remove(string2Coll("help"));
+		assertThat(underTest.contains(string2Coll("help")), is(false));
+		assertThat(underTest.contains(string2Coll("hello")), is(true));
 	}
 
 	@Test
 	public void removingSubstringShouldNotRemoveContainerString() {
-		Trie<Character> trie = new Trie<Character>();
-		trie.add(string2Coll("hello"));
-		trie.add(string2Coll("hell"));
-		trie.remove(string2Coll("hell"));
-		assertThat(trie.contains(string2Coll("hell")), is(false));
-		assertThat(trie.contains(string2Coll("hello")), is(true));
+		underTest.add(string2Coll("hello"));
+		underTest.add(string2Coll("hell"));
+		underTest.remove(string2Coll("hell"));
+		assertThat(underTest.contains(string2Coll("hell")), is(false));
+		assertThat(underTest.contains(string2Coll("hello")), is(true));
 	}
 
 	@Test
 	public void removingContainerStringShouldNotRemoveSubString() {
-		Trie<Character> trie = new Trie<Character>();
-		trie.add(string2Coll("hello"));
-		trie.add(string2Coll("hell"));
-		trie.remove(string2Coll("hello"));
-		assertThat(trie.contains(string2Coll("hell")), is(true));
-		assertThat(trie.contains(string2Coll("hello")), is(false));
+		underTest.add(string2Coll("hello"));
+		underTest.add(string2Coll("hell"));
+		underTest.remove(string2Coll("hello"));
+		assertThat(underTest.contains(string2Coll("hell")), is(true));
+		assertThat(underTest.contains(string2Coll("hello")), is(false));
 	}
 
 	@Test
 	public void removingZeroLengthWordShouldNotCauseException() {
-		Trie<Character> trie = new Trie<>();
-		trie.remove(string2Coll(""));
-		assertThat(trie.contains(string2Coll("")), is(false));
+		underTest.remove(string2Coll(""));
+		assertThat(underTest.contains(string2Coll("")), is(false));
 	}	
 	
 	private static Iterable<Character> string2Coll(String str) {
