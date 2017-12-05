@@ -26,6 +26,7 @@ public class TrieTest {
 	public void addZeroLengthWordShouldNotCauseException() {
 		Trie<Character> trie = new Trie<>();
 		trie.add(string2Coll(""));
+		assertThat(trie.contains(string2Coll("")), is(true));
 	}
 	
 	@Test
