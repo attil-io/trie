@@ -1,6 +1,5 @@
 package trie;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class Trie<E> {
 	
 	private Node<E> root = new Node<>();
 	
-	public boolean contains(Collection<E> word) {
+	public boolean contains(Iterable<E> word) {
 		Node<E> node = root;
 		for (E ch: word) {
 			Node<E> next = node.getChild(ch);
@@ -43,7 +42,7 @@ public class Trie<E> {
 		return node.isLeaf();
 	}
 
-	public void add(Collection<E> word) {
+	public void add(Iterable<E> word) {
 		Node<E> node = root;
 		for (E ch: word) {
 			Node<E> next = node.getChild(ch);
@@ -55,7 +54,7 @@ public class Trie<E> {
 		node.setLeaf(true);
 	}
 
-	public void remove(Collection<E> word) {
+	public void remove(Iterable<E> word) {
 		Node<E> node = root;
 		for (E ch: word) {
 			node = node.getChild(ch);

@@ -4,7 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -87,8 +87,8 @@ public class TrieTest {
 		assertThat(trie.contains(string2Coll("")), is(false));
 	}	
 	
-	private static Collection<Character> string2Coll(String str) {
-		Collection<Character> ret = new ArrayList<>(str.length());
+	private static Iterable<Character> string2Coll(String str) {
+		List<Character> ret = new ArrayList<>(str.length());
 		for (char ch: str.toCharArray()) {
 			ret.add(ch);
 		}
