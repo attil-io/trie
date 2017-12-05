@@ -8,6 +8,15 @@ public class Trie<E> {
 
 	private static class Node<E> {
 		private Map<E, Node<E>> children = new HashMap<>();
+		private boolean isLeaf = false;
+		
+		void setLeaf(boolean leaf) {
+			isLeaf = leaf;
+		}
+		
+		boolean isLeaf() {
+			return isLeaf;
+		}
 		
 		Node<E> addChild(E child) {
 			children.putIfAbsent(child, new Node<E>());
@@ -16,14 +25,6 @@ public class Trie<E> {
 		
 		Node<E> getChild(E child) {
 			return children.get(child);
-		}
-		
-		Node<E> removeChild(E child) {
-			return children.remove(child);
-		}
-		
-		boolean hasAtMostOneChild() {
-			return children.size() < 2;
 		}
 	}
 	
@@ -39,7 +40,7 @@ public class Trie<E> {
 				node = next;
 			}
 		}
-		return true;
+		return node.isLeaf();
 	}
 
 	public void add(Collection<E> word) {
@@ -51,23 +52,18 @@ public class Trie<E> {
 			}
 			node = next;
 		}
+		node.setLeaf(true);
 	}
 
 	public void remove(Collection<E> word) {
 		Node<E> node = root;
-		Node<E> lastFork = root;
-		E childAtLastFork = word.iterator().hasNext() ? word.iterator().next() : null;
 		for (E ch: word) {
-			if (!node.hasAtMostOneChild()) {
-				lastFork = node;
-				childAtLastFork = ch;
-			}
 			node = node.getChild(ch);
 			if (node == null) {
-				break;
+				return;
 			}
 		}
-		lastFork.removeChild(childAtLastFork);
+		node.setLeaf(false);
 	}
 
 }

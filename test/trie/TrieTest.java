@@ -11,9 +11,9 @@ import org.junit.Test;
 public class TrieTest {
 
 	@Test
-	public void emptyTrieShouldContainEmptyWord() {
+	public void emptyWordShouldNotBeContainedByDefault() {
 		Trie<Character> trie = new Trie<>();
-		assertThat(trie.contains(string2Coll("")), is(true));
+		assertThat(trie.contains(string2Coll("")), is(false));
 	}	
 	
 	@Test
@@ -61,10 +61,30 @@ public class TrieTest {
 	}
 
 	@Test
+	public void removingSubstringShouldNotRemoveContainerString() {
+		Trie<Character> trie = new Trie<Character>();
+		trie.add(string2Coll("hello"));
+		trie.add(string2Coll("hell"));
+		trie.remove(string2Coll("hell"));
+		assertThat(trie.contains(string2Coll("hell")), is(false));
+		assertThat(trie.contains(string2Coll("hello")), is(true));
+	}
+
+	@Test
+	public void removingContainerStringShouldNotRemoveSubString() {
+		Trie<Character> trie = new Trie<Character>();
+		trie.add(string2Coll("hello"));
+		trie.add(string2Coll("hell"));
+		trie.remove(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hell")), is(true));
+		assertThat(trie.contains(string2Coll("hello")), is(false));
+	}
+
+	@Test
 	public void removingZeroLengthWordShouldNotCauseException() {
 		Trie<Character> trie = new Trie<>();
 		trie.remove(string2Coll(""));
-		assertThat(trie.contains(string2Coll("")), is(true));
+		assertThat(trie.contains(string2Coll("")), is(false));
 	}	
 	
 	private static Collection<Character> string2Coll(String str) {
