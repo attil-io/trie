@@ -37,6 +37,14 @@ public class TrieTest {
 	}
 
 	@Test
+	public void wordAddedTwiceShouldBeContained() {
+		Trie<Character> trie = new Trie<>();
+		trie.add(string2Coll("hello"));
+		trie.add(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hello")), is(true));
+	}
+	
+	@Test
 	public void wordShouldNotBeContainedIfRemoved() {
 		Trie<Character> trie = new Trie<>();
 		trie.add(string2Coll("hello"));
@@ -44,6 +52,15 @@ public class TrieTest {
 		assertThat(trie.contains(string2Coll("hello")), is(false));
 	}
 
+	@Test
+	public void wordAddedTwiceAndRemovedShouldBeContained() {
+		Trie<Character> trie = new Trie<>();
+		trie.add(string2Coll("hello"));
+		trie.add(string2Coll("hello"));
+		trie.remove(string2Coll("hello"));
+		assertThat(trie.contains(string2Coll("hello")), is(false));
+	}	
+	
 	@Test
 	public void removingNonExistingWordShouldNotCauseException() {
 		Trie<Character> trie = new Trie<>();
