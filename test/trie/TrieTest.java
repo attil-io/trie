@@ -101,6 +101,35 @@ public class TrieTest {
 		assertThat(underTest.contains(string2Coll("")), is(false));
 	}	
 	
+	@Test
+	public void emptyTriesShouldBeEqual() {
+		Trie<Character> trie1 = new Trie<>();
+		Trie<Character> trie2 = new Trie<>();
+		
+		assertThat(trie1.equals(trie2), is(true));
+	}
+
+	@Test
+	public void triesAreNotEqualToOtherObjects() {
+		assertThat(underTest.equals(new Object()), is(false));
+	}
+
+	@Test
+	public void triesAreNotEqualToNull() {
+		assertThat(underTest.equals(null), is(false));
+	}
+	
+
+	@Test
+	public void triesWithDifferentContentsShouldNotBeEqual() {
+		Trie<Character> trie1 = new Trie<>();
+		Trie<Character> trie2 = new Trie<>();
+		
+		trie1.add(string2Coll("h"));
+		
+		assertThat(trie1.equals(trie2), is(false));
+	}
+	
 	private static Iterable<Character> string2Coll(String str) {
 		List<Character> ret = new ArrayList<>(str.length());
 		for (char ch: str.toCharArray()) {

@@ -25,6 +25,15 @@ public class Trie<E> {
 		Node<E> getChild(E child) {
 			return children.get(child);
 		}
+		
+		@Override
+		public boolean equals(Object o) {
+			if (!(o instanceof Node)) {
+				return false;
+			}
+			Node<?> node = (Node<?>) o;
+			return (this.isLeaf == node.isLeaf) && (children.equals(node.children)); 
+		}
 	}
 	
 	private Node<E> root = new Node<>();
@@ -63,6 +72,15 @@ public class Trie<E> {
 			}
 		}
 		node.setLeaf(false);
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Trie)) {
+			return false;
+		}
+		Trie<?> otherTrie = (Trie<?>) other;
+		return root.equals(otherTrie.root);
 	}
 
 }
